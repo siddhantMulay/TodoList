@@ -1,0 +1,26 @@
+html,
+body {
+  overflow: hidden;
+}
+html *,
+body * {
+  box-sizing: border-box;
+}
+.pageBody {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 5rem;
+}
+.pageBody * {
+  font-family: 'Josefin Sans';
+}
+.pageContent {
+  height: calc(100vh - 270px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media screen and (max-width: 600px) {
+  .pageBody {
+    padding: 25px;
+  }
+}

@@ -1,0 +1,37 @@
+
+//Contains commonly used styles across the app
+
+@import './variables.less';
+
+html, body{
+    overflow: hidden;
+
+    *{
+        box-sizing: border-box;
+    }
+}
+
+.pageBody{
+    max-width: @maxBodyWidth;
+    margin: 0 auto;
+    padding: 5rem;
+
+    *{
+        font-family: 'Josefin Sans';
+    }
+}
+
+.pageContent{
+    height: calc(100vh - 270px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+
+//Mobile devices
+@media screen and (max-width: 600px){
+    .pageBody{
+        padding: 25px;
+    }
+}
