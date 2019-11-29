@@ -15,6 +15,10 @@
   flex-wrap: wrap;
   width: 100%;
 }
+.homeContent .cards a {
+  text-decoration: none !important;
+  color: #000000 !important;
+}
 .homeContent .cards .bucketCard {
   margin: 0px 20px 20px 0px;
   width: 30%;

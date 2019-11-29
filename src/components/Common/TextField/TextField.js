@@ -10,29 +10,53 @@ class TextField extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            autocompleteVisible: false
+            autocompleteVisible: false,
+            value: props.value || undefined
         }
     }
 
-    handleChange = (data, callFrom) => {
-        const { onChange } = this.props;
-        const value = callFrom === 'autocomp' ? data : data.target.value;
+    closeAutoComplete = () => {
+        this.setState({
+            autocompleteVisible: false
+        })
+    }
+
+    openAutoComplete = () => {
+        this.setState({
+            autocompleteVisible: true
+        })
+    }
+
+
+    handleChange = (data, callFrom, name) => {
+        const { onChange, autoCompData } = this.props;
+        const value = callFrom === 'autocomp' ? name : data.target.value;
+
+        if (autoCompData !== undefined) {
+            if (autoCompData.length > 0) {
+                this.openAutoComplete()
+            }
+        }
 
         if (callFrom === 'autocomp') {
-            this.setState({
-                autocompleteVisible: false
-            })
+            this.closeAutoComplete()
         }
-        onChange(value, callFrom)
+
+        this.setState({
+            value: value
+        })
+
+        let finalVal = callFrom !== 'autocomp' ? value : data;
+        onChange(finalVal, callFrom)
     }
 
     render() {
-        const { autocompleteVisible } = this.state;
+        const { autocompleteVisible, value } = this.state;
         const { label,
             type,
             placeholder,
             autocomplete,
-            value
+            autoCompData
         } = this.props;
         return (
             <div className="textField">
@@ -48,19 +72,24 @@ class TextField extends Component {
                     <input
                         type={label}
                         value={value}
+                        onFocus={autoCompData !== undefined ?
+                            autoCompData.length > 0 ? this.openAutoComplete : null
+                            : null}
+                        // onBlur={this.closeAutoComplete}
                         onChange={(e) => this.handleChange(e, label)}
                         placeholder={placeholder} />
                 }
 
                 {autocomplete ?
                     <Autocomplete
+                        data={autoCompData}
                         visible={autocompleteVisible}
-                        onSelect={(e) => this.handleChange(e, 'autocomp')} />
+                        onSelect={(e, name) => this.handleChange(e, 'autocomp', name)} />
                     : null}
 
-                {autocomplete ?
+                {autoCompData !== undefined ? autoCompData.length > 0 ?
                     <Icon icon={chevronDown} className="autoCompIcon" />
-                    : null}
+                    : null : null}
             </div>
         )
     }

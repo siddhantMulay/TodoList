@@ -1,12 +1,11 @@
 
-//In charge of nested routes, keeping header and footer same across the app, just changing the 
+//In charge of nested routes, keeping header same across the app, just changing the 
 //page content. :)
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from '../components/Common/Header/Header';
-import Footer from '../components/Common/Footer/Footer';
 
 //Pages
 import Home from './Home';
@@ -14,20 +13,26 @@ import Bucket from './Bucket';
 
 class MainIndex extends Component {
     render() {
-        const { tasks } = this.props;
+        const { tasks, currentBucket } = this.props;
         const emptyState = tasks.length > 0 ? false : true;
+        const ifInBucket = Object.keys(currentBucket).length > 0 ? true : false;
+        let subHeaderText = emptyState ?
+            "Nothing's in here... yet"
+            : ifInBucket ? currentBucket.total + ' tasks,' + ' ' +
+                currentBucket.completed + ' completed' :
+                "Now, let's get started, shall we?";
 
         return (
             <div className="mainIndex">
                 <Header
-                    headerText={`Hello, Human!`}
-                    subHeaderText={`${emptyState ?
-                        "Nothing's in here... yet" : "Let's get started, shall we?"}`} />
+                    homeNav={`${ifInBucket}`}
+                    headerText={`${ifInBucket ?
+                        currentBucket.name : 'Hello, Human!'}`}
+                    subHeaderText={subHeaderText} />
                 <Router>
-                    <Route path='/index' component={Home} />
-                    <Route path='/bucket' component={Bucket} />
+                    <Route exact path='/' component={Home} />
+                    <Route exact path={`/bucket/:endpoint`} component={Bucket} />
                 </Router>
-                <Footer />
             </div>
 
         )
@@ -36,8 +41,10 @@ class MainIndex extends Component {
 
 const mapStateToProps = (state) => {
     const taskStore = state.task;
+    const globalStore = state.global;
     return {
-        tasks: taskStore.tasks
+        tasks: taskStore.tasks,
+        currentBucket: globalStore.currentBucket
     }
 }
 

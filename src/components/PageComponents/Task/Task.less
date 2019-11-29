@@ -1,0 +1,67 @@
+@import '../../../styles/variables.less';
+
+.task {
+    background     : #f5f5f5;
+    border-radius  : @borderRadius;
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    padding        : 22px 24px;
+    margin-bottom  : 20px;
+
+    .taskText {
+        font-size  : 16px;
+        display    : flex;
+        align-items: flex-start;
+        cursor     : pointer;
+
+        input[type="checkbox"] {
+            cursor            : pointer;
+            outline           : none;
+            background        : transparent;
+            box-shadow        : none;
+            border            : 1px solid #000;
+            -webkit-appearance: none;
+            width             : 14px;
+            height            : 14px;
+            border-radius     : 2px;
+            margin            : 0px 15px 0px 0px;
+            position          : relative;
+
+            &:checked {
+
+                opacity: 0.5;
+
+                +span {
+                    text-decoration: line-through;
+                    font-style     : italic;
+                    color          : #a8a8a8
+                }
+
+                &::after {
+                    content          : 'L';
+                    position         : absolute;
+                    font-size        : 12px;
+                    transform        : scaleX(-1.1) rotate(-50deg);
+                    -webkit-transform: scaleX(-1.1) rotate(-50deg);
+                    right            : 3px;
+                }
+            }
+        }
+
+        span {
+            max-width: 250px;
+        }
+    }
+
+    .taskActions {
+        .taskIcon {
+            cursor   : pointer;
+            font-size: 16px;
+
+            &:first-child {
+                margin-right: 12px;
+            }
+        }
+    }
+}

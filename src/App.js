@@ -15,7 +15,7 @@ function App() {
     <Provider store={dataStore}>
       <Router>
         <div className="pageBody">
-          <Route path='/' component={MainIndex} />
+          <Route exact path='/' component={MainIndex} />
         </div>
       </Router>
     </Provider>

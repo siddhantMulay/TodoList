@@ -6,16 +6,54 @@ import { Icon } from '@iconify/react';
 import folderMinus from '@iconify/icons-feather/folder-minus';
 import TextField from '../../Common/TextField/TextField';
 import Modal from '../../Common/Modal/Modal';
-
+import { connect } from 'react-redux';
 import BucketCard from '../BucketCard/BucketCard';
+import { Link } from 'react-router-dom';
+import { currentBucket } from '../../../redux/actions/globalActions';
 
 class HomeContent extends Component {
+
+    renderBuckets = () => {
+        const { tasks, buckets, bucketTaskCount } = this.props;
+        let retArr = [];
+        for (var i in buckets) {
+
+            const bucketId = buckets[i]['id'];
+            const bucketName = buckets[i]['name'];
+            let taskCount = 0;
+            let completedTaskCount = 0;
+
+            for (var i in bucketTaskCount) {
+                if (bucketTaskCount[i]['id'] === bucketId) {
+                    taskCount = bucketTaskCount[i]['total'];
+                    completedTaskCount = bucketTaskCount[i]['completed'];
+                }
+            }
+
+            const endpoint = bucketName.replace("[^A-Za-z0-9]+", "-").toLowerCase();
+
+            retArr.push(
+                <Link
+                    to={`/bucket/${endpoint}`}
+                    key={bucketId}>
+                    <BucketCard
+                        action={() => currentBucket(bucketId, bucketName, tasks)}
+                        title={bucketName}
+                        taskCount={taskCount}
+                        completedTaskCount={completedTaskCount} />
+                </Link>)
+        }
+
+        return retArr;
+    }
 
     render() {
         const { emptyState,
             taskModalVisible,
             openTaskModal,
+            primaryAction,
             handleInputChange,
+            buckets,
             closeTaskModal } = this.props;
         return (
             <div className="homeContent pageContent">
@@ -30,10 +68,7 @@ class HomeContent extends Component {
                     </div>
                     :
                     <div className="cards">
-                        <BucketCard
-                            title="Work"
-                            taskCount="2"
-                            completedTaskCount="1" />
+                        {this.renderBuckets()}
                     </div>
                 }
 
@@ -41,19 +76,23 @@ class HomeContent extends Component {
                     headerText={`Add a Task`}
                     secAction={closeTaskModal}
                     visible={taskModalVisible}
+                    primaryAction={primaryAction}
                     content={
                         <div>
                             <TextField
                                 autocomplete={true}
+                                autoCompData={buckets}
                                 onChange={handleInputChange}
-                                label="Where to?"
+                                value={''}
+                                label="Bucket"
                                 type="text"
-                                placeholder="Enter category name" />
+                                placeholder="Where will it go?" />
                             <TextField
                                 onChange={handleInputChange}
-                                label="What you gonna do?"
+                                value={''}
+                                label="Task"
                                 type="textarea"
-                                placeholder="Do this... or that" />
+                                placeholder="What's on your mind?" />
 
                         </div>
                     }
@@ -63,4 +102,15 @@ class HomeContent extends Component {
     }
 }
 
-export default HomeContent;
+const mapStateToProps = (state) => {
+    const taskStore = state.task;
+    const bucketStore = state.bucket;
+    const globalStore = state.global;
+    return {
+        buckets: bucketStore.buckets,
+        tasks: taskStore.tasks,
+        bucketTaskCount: globalStore.bucketTaskCount
+    }
+}
+
+export default connect(mapStateToProps)(HomeContent);

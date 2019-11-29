@@ -12,6 +12,7 @@
 .bucketCard * {
   transition: all 0.2s ease;
   -webkit-transition: all 0.2s ease;
+  text-decoration: none;
 }
 .bucketCard:hover .title,
 .bucketCard:hover .counts {

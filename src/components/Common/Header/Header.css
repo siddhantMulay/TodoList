@@ -1,6 +1,41 @@
 .header {
   line-height: 1.5;
   padding-bottom: 15px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+.header .headerData {
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+}
+.header.homeNavVisible .headerData {
+  transform: translateX(20px);
+  -webkit-transform: translateX(20px);
+}
+.header.homeNavVisible a {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0px);
+  -webkit-transform: translateX(0px);
+}
+.header.homeNavInVisible .headerData {
+  transform: translateX(-26px);
+  -webkit-transform: translateX(-26px);
+}
+.header.homeNavInVisible a {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-10px);
+  -webkit-transform: translateX(-10px);
+}
+.header a {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  padding: 5px;
+  transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
 }
 .header .headerText {
   font-size: 24px;
