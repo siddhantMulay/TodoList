@@ -9,3 +9,23 @@
 .homeContent .emptyState .emptyIcon {
   font-size: 2.5rem;
 }
+.homeContent .cards {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.homeContent .cards .bucketCard {
+  margin: 0px 20px 20px 0px;
+  width: 30%;
+}
+@media screen and (min-width: 768px) and (orientation: portrait) {
+  .homeContent .cards .bucketCard {
+    width: 29%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .homeContent .cards .bucketCard {
+    width: 140px;
+  }
+}

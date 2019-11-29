@@ -1,37 +1,74 @@
-
 //Contains commonly used styles across the app
 
 @import './variables.less';
 
-html, body{
+html,
+body {
     overflow: hidden;
 
-    *{
+    * {
         box-sizing: border-box;
     }
+
 }
 
-.pageBody{
-    max-width: @maxBodyWidth;
-    margin: 0 auto;
-    padding: 5rem;
+::-webkit-scrollbar {
+    width : 4px;
+    height: 4px;
+}
 
-    *{
+::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: @primaryCol;
+}
+
+
+.pageBody {
+    max-width: @maxBodyWidth;
+    margin   : 0 auto;
+    padding  : 5rem;
+
+    * {
         font-family: 'Josefin Sans';
     }
 }
 
-.pageContent{
-    height: calc(100vh - 270px);
-    overflow-y: auto;
+.pageContent {
+    height                    : calc(100vh - 270px);
+    overflow-x                : hidden;
+    overflow-y                : auto;
     -webkit-overflow-scrolling: touch;
 }
 
 
 
 //Mobile devices
-@media screen and (max-width: 600px){
-    .pageBody{
+@media screen and (max-width: 600px) {
+    .pageBody {
         padding: 25px;
     }
+
+    .pageContent {
+        height: calc(100vh - 180px);
+    }
+
+}
+
+//Mobile devices
+@media screen and (max-width: 600px) and (orientation: landscape) {
+    .pageBody {
+        padding: 25px;
+    }
+
+    .pageContent {
+        height: calc(100vh - 180px);
+    }
+
 }

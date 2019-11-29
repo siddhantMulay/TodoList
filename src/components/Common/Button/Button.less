@@ -1,32 +1,32 @@
 @import '../../../styles/variables.less';
 
-.button{
-    outline: none;
-    background: @primaryCol;
-    box-shadow: none;
-    border: 1px solid transparent;
-    border-radius: @borderRadius;
-    padding: 8px 12px;
-    color: white;
-    text-transform: uppercase;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+.button {
+    outline           : none;
+    background        : @primaryCol;
+    box-shadow        : none;
+    border            : 1px solid transparent;
+    border-radius     : @borderRadius;
+    padding           : 10px 12px 8px 12px;
+    color             : white;
+    text-transform    : uppercase;
+    font-size         : 12px;
+    cursor            : pointer;
+    transition        : all 0.2s ease;
     -webkit-transition: all 0.2s ease;
 
-    &.secButton{
+    &.secButton {
         background: @secCol;
 
-        &:hover{
-            color: @secCol;
+        &:hover {
+            color     : @secCol;
             background: transparent;
-            border: 1px solid @secCol;
+            border    : 1px solid @secCol;
         }
     }
 
-    &:hover{
-        color: @primaryCol;
+    &:hover {
+        color     : @primaryCol;
         background: transparent;
-        border: 1px solid @primaryCol;
+        border    : 1px solid @primaryCol;
     }
 }

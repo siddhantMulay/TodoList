@@ -1,0 +1,40 @@
+@import '../../../styles/variables.less';
+
+.bucketCard {
+    min-width      : 200px;
+    padding        : 20px;
+    line-height    : 1.5;
+    border-radius  : 6px;
+    height         : 120px;
+    display        : flex;
+    flex-direction : column;
+    justify-content: flex-end;
+    cursor         : pointer;
+
+    * {
+        transition        : all 0.2s ease;
+        -webkit-transition: all 0.2s ease;
+    }
+
+    &:hover {
+
+        .title,
+        .counts {
+            transform        : translateX(10px);
+            -webkit-transform: translateX(10px);
+        }
+    }
+
+    .title {
+        font-size    : 20px;
+        text-overflow: ellipsis;
+        white-space  : nowrap;
+        width        : 150px;
+        overflow     : hidden;
+    }
+
+    .counts {
+        font-size  : 15px;
+        font-weight: @thin;
+    }
+}

@@ -1,16 +1,50 @@
 @import '../../../styles/variables.less';
 
-.homeContent{
+.homeContent {
     .emptyState {
-        display: flex;
-        flex-direction: column;
+        display        : flex;
+        flex-direction : column;
         justify-content: center;
-        align-items: center;
-        line-height: 4;
-        height: 100%;
+        align-items    : center;
+        line-height    : 4;
+        height         : 100%;
 
-        .emptyIcon{
+        .emptyIcon {
             font-size: 2.5rem;
+        }
+    }
+
+    .cards {
+        display    : flex;
+        align-items: center;
+        flex-wrap  : wrap;
+        width      : 100%;
+
+        .bucketCard {
+            margin: 0px 20px 20px 0px;
+            width : 30%;
+        }
+    }
+}
+
+//Portrait devices
+@media screen and (min-width: 768px) and (orientation: portrait) {
+    .homeContent {
+        .cards {
+            .bucketCard {
+                width: 29%;
+            }
+        }
+    }
+}
+
+//Mobile devices
+@media screen and (max-width: 600px) {
+    .homeContent {
+        .cards {
+            .bucketCard {
+                width: 140px;
+            }
         }
     }
 }

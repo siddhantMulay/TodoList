@@ -1,15 +1,11 @@
 
 import React, { Component } from 'react';
-import './HomeContent.css'
-import Button from '../../Common/Button/Button';
 import { Icon } from '@iconify/react';
 import folderMinus from '@iconify/icons-feather/folder-minus';
-import TextField from '../../Common/TextField/TextField';
-import Modal from '../../Common/Modal/Modal';
+import TextField from '../components/Common/TextField/TextField';
+import Modal from '../components/Common/Modal/Modal';
 
-import BucketCard from '../BucketCard/BucketCard';
-
-class HomeContent extends Component {
+class Bucket extends Component {
 
     render() {
         const { emptyState,
@@ -18,27 +14,10 @@ class HomeContent extends Component {
             handleInputChange,
             closeTaskModal } = this.props;
         return (
-            <div className="homeContent pageContent">
-
-                {emptyState ?
-                    <div className="emptyState">
-                        <Icon icon={folderMinus} className="emptyIcon" />
-                        <div>
-                            How 'bout we get started?
-                        </div>
-                        <Button buttonText="Add Task" action={openTaskModal} />
-                    </div>
-                    :
-                    <div className="cards">
-                        <BucketCard
-                            title="Work"
-                            taskCount="2"
-                            completedTaskCount="1" />
-                    </div>
-                }
-
+            <div className="bucketContent pageContent">
+                Yo!
                 <Modal
-                    headerText={`Add a Task`}
+                    headerText={`Edit Task`}
                     secAction={closeTaskModal}
                     visible={taskModalVisible}
                     content={
@@ -63,4 +42,4 @@ class HomeContent extends Component {
     }
 }
 
-export default HomeContent;
+export default Bucket;

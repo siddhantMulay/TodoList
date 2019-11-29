@@ -10,6 +10,7 @@ import Footer from '../components/Common/Footer/Footer';
 
 //Pages
 import Home from './Home';
+import Bucket from './Bucket';
 
 class MainIndex extends Component {
     render() {
@@ -24,6 +25,7 @@ class MainIndex extends Component {
                         "Nothing's in here... yet" : "Let's get started, shall we?"}`} />
                 <Router>
                     <Route path='/index' component={Home} />
+                    <Route path='/bucket' component={Bucket} />
                 </Router>
                 <Footer />
             </div>
