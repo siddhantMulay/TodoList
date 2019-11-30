@@ -72,8 +72,8 @@ class Home extends Component {
 
     render() {
         const { taskModalVisible } = this.state;
-        const { tasks, buckets, globalTaskObj } = this.props;
-        const emptyState = tasks.length > 0 ? false : true;
+        const { buckets } = this.props;
+        const emptyState = buckets.length > 0 ? false : true;
 
         return (
             <div className="page" data-page="Home">

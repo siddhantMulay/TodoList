@@ -61,17 +61,26 @@ export function bucketWiseTaskCount(tasks, buckets) {
         countObj['id'] = bucketId;
         let totalCount = 0;
         let compCount = 0;
-        for (var j in tasks) {
 
-            if (tasks[j]['bucket'] === bucketId) {
-                totalCount = totalCount + 1;
-                countObj['total'] = totalCount;
+        if (tasks.length > 0) {
 
-                if (tasks[j]['completed']) {
-                    compCount = compCount + 1;
+            for (var j in tasks) {
+
+                if (tasks[j]['bucket'] === bucketId) {
+                    totalCount = totalCount + 1;
+                    countObj['total'] = totalCount;
+
+                    if (tasks[j]['completed']) {
+                        compCount = compCount + 1;
+                    }
+                    countObj['completed'] = compCount;
                 }
-                countObj['completed'] = compCount;
             }
+        }
+
+        else{
+            countObj['total'] = 0;
+            countObj['completed'] = 0;
         }
 
         retArr.push(countObj);

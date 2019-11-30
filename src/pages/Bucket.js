@@ -5,7 +5,7 @@ import Modal from '../components/Common/Modal/Modal';
 import Task from '../components/PageComponents/Task/Task';
 import { connect } from 'react-redux';
 import { toggleTaskStatus, updateTask, deleteTask } from '../redux/actions/taskActions';
-import { currentBucket, setTasks, globalTaskObj } from '../redux/actions/globalActions';
+import { currentBucket, setTasks, globalTaskObj, bucketWiseTaskCount } from '../redux/actions/globalActions';
 import Footer from '../components/Common/Footer/Footer';
 
 class Bucket extends Component {
@@ -54,20 +54,22 @@ class Bucket extends Component {
     }
 
     toggleTaskStaus = (id, status) => {
-        const { currentBucketData, tasks } = this.props;
+        const { currentBucketData, tasks, buckets } = this.props;
         toggleTaskStatus(id, status).then(() => {
             currentBucket(currentBucketData.id, currentBucketData.name, tasks).then(() => {
                 setTasks(tasks)
+                bucketWiseTaskCount(tasks, buckets);
             })
         })
     }
 
     updateTask = () => {
         const { currTaskId } = this.state;
-        const { globalTaskObj, currentBucketData, tasks } = this.props;
+        const { globalTaskObj, currentBucketData, tasks, buckets } = this.props;
         updateTask(currTaskId, globalTaskObj['bucket'], globalTaskObj['Task']).then(() => {
             currentBucket(currentBucketData.id, currentBucketData.name, tasks).then(() => {
                 setTasks(tasks)
+                bucketWiseTaskCount(tasks, buckets);
                 this.closeTaskModal();
             })
         });
@@ -76,10 +78,10 @@ class Bucket extends Component {
     deleteTask = (taskId) => {
         const { currentBucketData } = this.props;
         deleteTask(taskId).then(() => {
-            const { tasks } = this.props;
-            console.log(tasks)
+            const { tasks, buckets } = this.props;
             currentBucket(currentBucketData.id, currentBucketData.name, tasks).then(() => {
-                setTasks(tasks)
+                setTasks(tasks);
+                bucketWiseTaskCount(tasks, buckets);
             })
         });
     }
@@ -113,36 +115,39 @@ class Bucket extends Component {
         const { buckets, globalTaskObj } = this.props;
 
         return (
-            <div className="bucketContent pageContent">
-                {this.renderTasks()}
-                <Modal
-                    headerText={`Edit Task`}
-                    secAction={this.closeTaskModal}
-                    visible={taskModalVisible}
-                    primaryAction={() => this.updateTask()}
-                    content={
-                        valuesLoaded ?
-                            <div>
-                                <TextField
-                                    autocomplete={true}
-                                    autoCompData={buckets}
-                                    onChange={this.handleInputChange}
-                                    value={globalTaskObj['bucket']}
-                                    label="Bucket"
-                                    type="text"
-                                    placeholder="Where will it go?" />
-                                <TextField
-                                    onChange={this.handleInputChange}
-                                    value={globalTaskObj['task']}
-                                    label="Task"
-                                    type="textarea"
-                                    placeholder="What's on your mind?" />
-                            </div>
-                            : null
-                    }
-                    primaryBtnText={`Set Sail!`} />
-
-                    <Footer showBtn={true} action={this.openTaskModal} />
+            <div className="page" data-page="Bucket">
+                <div className="bucketContent pageContent">
+                    <div className="allTasks">
+                        {this.renderTasks()}
+                    </div>
+                    <Modal
+                        headerText={`Edit Task`}
+                        secAction={this.closeTaskModal}
+                        visible={taskModalVisible}
+                        primaryAction={() => this.updateTask()}
+                        content={
+                            valuesLoaded ?
+                                <div>
+                                    <TextField
+                                        autocomplete={true}
+                                        autoCompData={buckets}
+                                        onChange={this.handleInputChange}
+                                        value={globalTaskObj['bucket']}
+                                        label="Bucket"
+                                        type="text"
+                                        placeholder="Where will it go?" />
+                                    <TextField
+                                        onChange={this.handleInputChange}
+                                        value={globalTaskObj['task']}
+                                        label="Task"
+                                        type="textarea"
+                                        placeholder="What's on your mind?" />
+                                </div>
+                                : null
+                        }
+                        primaryBtnText={`Set Sail!`} />
+                </div>
+                <Footer showBtn={true} action={this.openTaskModal} />
             </div>
         )
     }

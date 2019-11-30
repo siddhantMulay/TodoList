@@ -43,7 +43,9 @@
   right: 3px;
 }
 .task .taskText span {
-  max-width: 250px;
+  max-width: 280px;
+  word-break: break-word;
+  line-height: 1.4;
 }
 .task .taskActions .taskIcon {
   cursor: pointer;

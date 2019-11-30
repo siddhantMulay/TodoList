@@ -4,9 +4,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Header from '../components/Common/Header/Header';
-import { currentBucket } from '../redux/actions/globalActions';
 
 //Pages
 import Home from './Home';
@@ -14,13 +13,6 @@ import Bucket from './Bucket';
 
 
 class MainIndex extends Component {
-
-
-    componentDidMount() {
-        if (window.location.pathname === '/') {
-            currentBucket('', '', '', true)
-        }
-    }
 
     render() {
         const { tasks, currentBucket } = this.props;
@@ -40,10 +32,10 @@ class MainIndex extends Component {
                     headerText={`${ifInBucket ?
                         currentBucket.name : 'Hello, Human!'}`}
                     subHeaderText={subHeaderText} />
-                <Router>
-                    <Route exact path='/' component={Home} />
-                    <Route exact path={`/bucket/:endpoint`} component={Bucket} />
-                </Router>
+                <Switch>
+                    <Route exact path='/home' component={Home} />
+                    <Route path='/bucket/:endpoint' component={Bucket} />
+                </Switch>
             </div>
 
         )

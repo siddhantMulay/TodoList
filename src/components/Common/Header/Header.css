@@ -5,13 +5,22 @@
   display: flex;
   align-items: flex-start;
 }
+.header .homeNav {
+  background: none;
+  box-shadow: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  outline: none;
+  padding-top: 7px;
+}
 .header .headerData {
   transition: all 0.2s ease;
   -webkit-transition: all 0.2s ease;
 }
 .header.homeNavVisible .headerData {
-  transform: translateX(20px);
-  -webkit-transform: translateX(20px);
+  transform: translateX(50px);
+  -webkit-transform: translateX(50px);
 }
 .header.homeNavVisible a {
   opacity: 1;
@@ -20,8 +29,8 @@
   -webkit-transform: translateX(0px);
 }
 .header.homeNavInVisible .headerData {
-  transform: translateX(-26px);
-  -webkit-transform: translateX(-26px);
+  transform: translateX(0px);
+  -webkit-transform: translateX(0px);
 }
 .header.homeNavInVisible a {
   opacity: 0;
@@ -32,8 +41,7 @@
 .header a {
   text-decoration: none;
   color: black;
-  font-size: 20px;
-  padding: 5px;
+  width: 0px;
   transition: all 0.2s ease;
   -webkit-transition: all 0.2s ease;
 }

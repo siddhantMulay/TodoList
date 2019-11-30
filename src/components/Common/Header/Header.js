@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './Header.css';
 import { Icon } from '@iconify/react';
 import arrowLeft from '@iconify/icons-feather/arrow-left';
-
+import { currentBucket } from '../../../redux/actions/globalActions';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
@@ -14,10 +14,12 @@ class Header extends Component {
             homeNav } = this.props;
         return (
             <div className={`header ${homeNav ? 'homeNavVisible' : 'homeNavInVisible'}`}>
-                <Link to='/'>
-                    <div className="homeNav">
+                <Link to='/home'>
+                    <button className="homeNav"
+                        onClick={() => currentBucket('', '', '', true)}
+                    >
                         <Icon icon={arrowLeft} />
-                    </div>
+                    </button>
                 </Link>
                 <div className="headerData">
                     <div className="headerText">
