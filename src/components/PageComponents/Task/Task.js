@@ -22,7 +22,7 @@ class Task extends Component {
         } = this.props;
         return (
             <div className={`task ${className}`}>
-                <div className={`taskText`} /*onClick={() => this.handleCheck(taskText)}*/>
+                <div className={`taskText`}>
                     <input type="checkbox"
                         onChange={(e) => this.handleCheck(taskId, e)}
                         value={taskText}

@@ -5,6 +5,7 @@ import HomeContent from '../components/PageComponents/HomeContent/HomeContent';
 import { addTask } from '../redux/actions/taskActions';
 import { addBucket } from '../redux/actions/bucketActions';
 import { globalTaskObj, bucketWiseTaskCount } from '../redux/actions/globalActions';
+import { withRouter } from 'react-router-dom'
 
 import Footer from '../components/Common/Footer/Footer';
 
@@ -28,6 +29,8 @@ class Home extends Component {
         }, () => {
             const { tasks, buckets } = this.props;
             bucketWiseTaskCount(tasks, buckets);
+            globalTaskObj('', 'bucket')
+            globalTaskObj('', 'task')
         })
     }
 
@@ -100,4 +103,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Home);
+export default withRouter(connect(mapStateToProps)(Home));

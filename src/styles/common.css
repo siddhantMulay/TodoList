@@ -33,6 +33,9 @@ body * {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+.pageContent.bucketContent {
+  padding-left: 50px;
+}
 @media screen and (max-width: 600px) {
   .pageBody {
     padding: 25px;

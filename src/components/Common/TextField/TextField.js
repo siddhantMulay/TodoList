@@ -11,7 +11,7 @@ class TextField extends Component {
         super(props);
         this.state = {
             autocompleteVisible: false,
-            value: props.value || undefined
+            value: props.value || ''
         }
     }
 

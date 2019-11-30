@@ -6,16 +6,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from '../components/Common/Header/Header';
+import { currentBucket } from '../redux/actions/globalActions';
 
 //Pages
 import Home from './Home';
 import Bucket from './Bucket';
 
+
 class MainIndex extends Component {
+
+
+    componentDidMount() {
+        if (window.location.pathname === '/') {
+            currentBucket('', '', '', true)
+        }
+    }
+
     render() {
         const { tasks, currentBucket } = this.props;
         const emptyState = tasks.length > 0 ? false : true;
         const ifInBucket = Object.keys(currentBucket).length > 0 ? true : false;
+
         let subHeaderText = emptyState ?
             "Nothing's in here... yet"
             : ifInBucket ? currentBucket.total + ' tasks,' + ' ' +
@@ -25,7 +36,7 @@ class MainIndex extends Component {
         return (
             <div className="mainIndex">
                 <Header
-                    homeNav={`${ifInBucket}`}
+                    homeNav={ifInBucket}
                     headerText={`${ifInBucket ?
                         currentBucket.name : 'Hello, Human!'}`}
                     subHeaderText={subHeaderText} />

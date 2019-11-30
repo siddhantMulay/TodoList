@@ -3,30 +3,33 @@ import dataStore from '../store';
 
 //Set bucket url based on the bucket user is viewing
 export const CURRENT_BUCKET = 'CURRENT_BUCKET';
-export async function currentBucket(id, name, tasks) {
+export async function currentBucket(id, name, tasks, reset) {
 
     let retObj = {};
-    retObj.id = id;
-    retObj.name = name;
-    let taskArr = [];
-    let totalCount = 0;
-    let compCount = 0;
-    for (var i in tasks) {
 
-        if (tasks[i]['bucket'] === id) {
-            totalCount = totalCount + 1;
-            retObj['total'] = totalCount;
+    if (!reset) {
+        retObj.id = id;
+        retObj.name = name;
+        let taskArr = [];
+        let totalCount = 0;
+        let compCount = 0;
+        for (var i in tasks) {
 
-            if (tasks[i]['completed']) {
-                compCount = compCount + 1;
+            if (tasks[i]['bucket'] === id) {
+                totalCount = totalCount + 1;
+                retObj['total'] = totalCount;
+
+                if (tasks[i]['completed']) {
+                    compCount = compCount + 1;
+                }
+                retObj['completed'] = compCount;
+                taskArr.push({
+                    'id': tasks[i]['id'],
+                    'title': tasks[i]['task'],
+                    'completed': tasks[i]['completed']
+                });
+                retObj['tasks'] = taskArr;
             }
-            retObj['completed'] = compCount;
-            taskArr.push({
-                'id': tasks[i]['id'],
-                'title': tasks[i]['task'],
-                'completed': tasks[i]['completed']
-            });
-            retObj['tasks'] = taskArr;
         }
     }
 
