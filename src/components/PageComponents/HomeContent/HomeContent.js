@@ -56,6 +56,7 @@ class HomeContent extends Component {
             handleInputChange,
             globalTaskObj,
             buckets,
+            isValid,
             closeTaskModal } = this.props;
         return (
             <div className="homeContent pageContent">
@@ -87,16 +88,20 @@ class HomeContent extends Component {
                                     hasDropdown={true}
                                     dropdownData={buckets}
                                     onChange={handleInputChange}
+                                    className={`${isValid['bucket'] ? 'error' : ''}`}
                                     value={globalTaskObj['bucket']}
                                     label="Bucket"
                                     type="text"
-                                    placeholder="Where will it go?" />
+                                    placeholder={`${isValid['bucket'] ? 'We need this' :
+                                        'Where will it go?'}`} />
                                 <TextField
                                     onChange={handleInputChange}
                                     value={globalTaskObj['task']}
+                                    className={`${isValid['task'] ? 'error' : ''}`}
                                     label="Task"
                                     type="textarea"
-                                    placeholder="What's on your mind?" />
+                                    placeholder={`${isValid['task'] ? 'Forgetting something?' :
+                                    "What's on your mind?"}`} />
                             </div>
                             : null
                     }

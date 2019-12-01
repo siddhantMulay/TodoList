@@ -12,7 +12,7 @@ function bucketReducer(state = initialState, action) {
     switch (action.type) {
 
         case GET_ALL_BUCKETS:
-           
+            
             return {
                 ...state,
                 buckets: currBuckets

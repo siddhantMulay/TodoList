@@ -10,6 +10,14 @@
         margin-bottom: 8px;
     }
 
+    &.error {
+
+        input,
+        textarea {
+            border: 1px solid red;
+        }
+    }
+
     input,
     textarea {
         border-radius     : @borderRadius;
@@ -26,7 +34,7 @@
             border: 1px solid @primaryCol;
         }
 
-        &:read-only{
+        &:read-only {
             cursor: pointer;
         }
     }

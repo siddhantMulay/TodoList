@@ -72,12 +72,13 @@ class TextField extends Component {
         const { label,
             type,
             placeholder,
+            className,
             hasDropdown,
             readOnly,
             dropdownData
         } = this.props;
         return (
-            <div className="textField">
+            <div className={`textField ${className}`}>
                 <div className="label">{label}</div>
                 {type === 'textarea' ?
                     <textarea

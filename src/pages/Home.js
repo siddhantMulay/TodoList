@@ -12,7 +12,8 @@ class Home extends Component {
         super(props);
         this.state = {
             taskModalVisible: false,
-            valuesLoaded: false
+            valuesLoaded: false,
+            emptyDataObj: {}
         }
     }
 
@@ -44,18 +45,73 @@ class Home extends Component {
         if (temp === 'dropdown') {
             temp = 'bucket'
         }
+        this.setState({
+            emptyDataObj: Object.assign({
+                ...this.state.emptyDataObj,
+                [temp]: false
+            })
+        })
         globalTaskObj(value, temp)
+    }
+
+    validateFields = () => {
+        const { globalTaskObj } = this.props;
+        let isValid = '';
+        if (globalTaskObj['bucket'] === '') {
+            this.setState({
+                emptyDataObj: Object.assign({
+                    ...this.state.emptyDataObj,
+                    ['bucket']: true
+                })
+            })
+            isValid = false;
+        }
+
+        else if (globalTaskObj['task'] === '') {
+            this.setState({
+                emptyDataObj: Object.assign({
+                    ...this.state.emptyDataObj,
+                    ['task']: true
+                })
+            })
+            isValid = false;
+        }
+
+        else {
+            this.setState({
+                emptyDataObj: Object.assign({
+                    ...this.state.emptyDataObj,
+                    ['bucket']: false,
+                    ['task']: false
+                })
+            })
+            isValid = true;
+        }
+
+        return isValid;
     }
 
     addNewTask = () => {
         const { tasks, buckets, globalTaskObj } = this.props;
-        Utilities.addNewTask(tasks, buckets, globalTaskObj).then(() => {
-            this.closeTaskModal();
-        })
+
+        const isDataValid = this.validateFields();
+
+        if (isDataValid) {
+            Utilities.addNewTask(tasks, buckets, globalTaskObj).then(() => {
+                this.setState({
+                    emptyDataObj: Object.assign({
+                        ...this.state.emptyDataObj,
+                        ['bucket']: false,
+                        ['task']: false
+                    })
+                })
+                this.closeTaskModal();
+            })
+        }
     }
 
     render() {
-        const { taskModalVisible, valuesLoaded } = this.state;
+        const { taskModalVisible, valuesLoaded, emptyDataObj } = this.state;
         const { buckets } = this.props;
         const emptyState = buckets.length > 0 ? false : true;
 
@@ -66,6 +122,7 @@ class Home extends Component {
                     closeTaskModal={this.closeTaskModal}
                     emptyState={emptyState}
                     loaded={valuesLoaded}
+                    isValid={emptyDataObj}
                     primaryAction={() => this.addNewTask()}
                     handleInputChange={this.handleInputChange}
                     taskModalVisible={taskModalVisible} />
@@ -82,8 +139,8 @@ const mapStateToProps = (state) => {
     const bucketStore = state.bucket;
     const globalStore = state.global;
     return {
-        tasks: taskStore.tasks,
-        buckets: bucketStore.buckets,
+        tasks: JSON.parse(localStorage.getItem('tasks')) || taskStore.tasks,
+        buckets: JSON.parse(localStorage.getItem('buckets')) || bucketStore.buckets,
         globalTaskObj: globalStore.globalTaskObj
     }
 }

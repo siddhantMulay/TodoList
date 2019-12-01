@@ -28,6 +28,7 @@ function globalReducer(state = initialState, action) {
             };
 
         case BUCKET_WISE_TASK_COUNT:
+
             return {
                 ...state,
                 bucketTaskCount: action.retArr

@@ -63,7 +63,6 @@ function taskReducer(state = initialState, action) {
                     getAllCurrentTasks.splice(i, 1);
                 }
             }
-            
             return {
                 ...state,
                 tasks: getAllCurrentTasks

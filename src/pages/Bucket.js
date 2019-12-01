@@ -18,7 +18,8 @@ class Bucket extends Component {
             valuesLoaded: false,
             bucketChange: false,
             modalAction: '',
-            currTaskId: ''
+            currTaskId: '',
+            emptyDataObj: {}
         }
     }
 
@@ -32,6 +33,8 @@ class Bucket extends Component {
             modalAction: action,
             currTaskId: taskId
         }, () => {
+
+            globalTaskObj(bucketId, 'bucket');
             this.setState({
                 valuesLoaded: true
             })
@@ -59,7 +62,12 @@ class Bucket extends Component {
                 bucketChange: true
             })
         }
-
+        this.setState({
+            emptyDataObj: Object.assign({
+                ...this.state.emptyDataObj,
+                [temp]: false
+            })
+        })
         globalTaskObj(value, temp)
     }
 
@@ -76,13 +84,25 @@ class Bucket extends Component {
     updateTask = () => {
         const { currTaskId } = this.state;
         const { globalTaskObj, currentBucketData, tasks, buckets } = this.props;
-        updateTask(currTaskId, globalTaskObj['bucket'], globalTaskObj['task']).then(() => {
-            currentBucket(currentBucketData.id, currentBucketData.name, tasks).then(() => {
-                setTasks(tasks)
-                bucketWiseTaskCount(tasks, buckets);
-                this.closeTaskModal();
-            })
-        });
+
+        const taskFieldValidated = this.validateTaskField();
+
+        if (taskFieldValidated) {
+
+            updateTask(currTaskId, globalTaskObj['bucket'], globalTaskObj['task']).then(() => {
+                currentBucket(currentBucketData.id, currentBucketData.name, tasks).then(() => {
+                    setTasks(tasks)
+                    bucketWiseTaskCount(tasks, buckets);
+                    this.setState({
+                        emptyDataObj: Object.assign({
+                            ...this.state.emptyDataObj,
+                            ['task']: false
+                        })
+                    })
+                    this.closeTaskModal();
+                })
+            });
+        }
     }
 
     deleteTask = (taskId) => {
@@ -95,15 +115,89 @@ class Bucket extends Component {
         });
     }
 
+    validateTaskField = () => {
+        const { globalTaskObj } = this.props;
+        let isValid = '';
+        if (globalTaskObj['task'] === '') {
+            this.setState({
+                emptyDataObj: Object.assign({
+                    ...this.state.emptyDataObj,
+                    ['task']: true
+                })
+            })
+            isValid = false;
+        }
+
+        else {
+            this.setState({
+                emptyDataObj: Object.assign({
+                    ...this.state.emptyDataObj,
+                    ['task']: false
+                })
+            })
+            isValid = true;
+        }
+
+        return isValid;
+    }
+
+    validateFields = () => {
+        const { globalTaskObj } = this.props;
+        let isValid = '';
+        if (globalTaskObj['bucket'] === '') {
+            this.setState({
+                emptyDataObj: Object.assign({
+                    ...this.state.emptyDataObj,
+                    ['bucket']: true
+                })
+            })
+            isValid = false;
+        }
+
+        else if (globalTaskObj['task'] === '') {
+            this.setState({
+                emptyDataObj: Object.assign({
+                    ...this.state.emptyDataObj,
+                    ['task']: true
+                })
+            })
+            isValid = false;
+        }
+
+        else {
+            this.setState({
+                emptyDataObj: Object.assign({
+                    ...this.state.emptyDataObj,
+                    ['bucket']: false,
+                    ['task']: false
+                })
+            })
+            isValid = true;
+        }
+
+        return isValid;
+    }
+
     addNewTask = () => {
         const { tasks, buckets, globalTaskObj, currentBucketData } = this.props;
-        Utilities.addNewTask(tasks, buckets, globalTaskObj).then(() => {
-            currentBucket(currentBucketData.id, currentBucketData.name, this.props.tasks).then(() => {
-                setTasks(this.props.tasks);
-                bucketWiseTaskCount(this.props.tasks, this.props.buckets);
-                this.closeTaskModal();
-            })
-        });
+        const isDataValid = this.validateFields();
+        if (isDataValid) {
+
+            Utilities.addNewTask(tasks, buckets, globalTaskObj).then(() => {
+                currentBucket(currentBucketData.id, currentBucketData.name, this.props.tasks).then(() => {
+                    setTasks(this.props.tasks);
+                    bucketWiseTaskCount(this.props.tasks, this.props.buckets);
+                    this.setState({
+                        emptyDataObj: Object.assign({
+                            ...this.state.emptyDataObj,
+                            ['bucket']: false,
+                            ['task']: false
+                        })
+                    })
+                    this.closeTaskModal();
+                })
+            });
+        }
     }
 
     renderTasks = () => {
@@ -131,7 +225,7 @@ class Bucket extends Component {
     }
 
     render() {
-        const { taskModalVisible, valuesLoaded, modalAction, bucketChange } = this.state;
+        const { taskModalVisible, valuesLoaded, modalAction, bucketChange, emptyDataObj } = this.state;
         const { buckets, globalTaskObj, currentBucketData } = this.props;
         return (
             <div className="page" data-page="Bucket">
@@ -141,8 +235,8 @@ class Bucket extends Component {
                     </div>
                     <Modal
                         headerText={`${modalAction === 'edit' ? 'Edit' : 'Add a '} Task`}
-                        subHeaderText={`${modalAction === 'add' ? 'Select an existing bucket or simply type to create a new one.' 
-                        : "You can't create a new bucket here coz you're editing :D"}`}
+                        subHeaderText={`${modalAction === 'add' ? 'Select an existing bucket or simply type to create a new one.'
+                            : "You can't create a new bucket here coz you're editing :D"}`}
                         secAction={this.closeTaskModal}
                         visible={taskModalVisible}
                         primaryAction={() => modalAction === 'edit' ? this.updateTask() : this.addNewTask()}
@@ -153,6 +247,7 @@ class Bucket extends Component {
                                         hasDropdown={true}
                                         readOnly={modalAction === 'edit' ? true : false}
                                         dropdownData={buckets}
+                                        className={`${emptyDataObj['bucket'] ? 'error' : ''}`}
                                         onChange={this.handleInputChange}
                                         value={
                                             bucketChange ?
@@ -160,19 +255,22 @@ class Bucket extends Component {
                                                 currentBucketData.name}
                                         label="Bucket"
                                         type="text"
-                                        placeholder="Where will it go?" />
+                                        placeholder={`${emptyDataObj['bucket'] ? 'We need this' :
+                                            'Where will it go?'}`} />
                                     <TextField
                                         onChange={this.handleInputChange}
+                                        className={`${emptyDataObj['task'] ? 'error' : ''}`}
                                         value={globalTaskObj['task']}
                                         label="Task"
                                         type="textarea"
-                                        placeholder="What's on your mind?" />
+                                        placeholder={`${emptyDataObj['task'] ? 'Forgetting something?' :
+                                            "What's on your mind?"}`} />
                                 </div>
                                 : null
                         }
                         primaryBtnText={`Set Sail!`} />
                 </div>
-                <Footer showBtn={true} action={() => this.openTaskModal('', '', '', 'add')} />
+                <Footer showBtn={true} action={() => this.openTaskModal('', '', currentBucketData.id, 'add')} />
             </div>
         )
     }
@@ -184,8 +282,8 @@ const mapStateToProps = (state) => {
     const taskStore = state.task;
     return {
         currentBucketData: globalStore.currentBucket,
-        buckets: bucketStore.buckets,
         tasks: taskStore.tasks,
+        buckets: bucketStore.buckets,
         globalTaskObj: globalStore.globalTaskObj
     }
 }
