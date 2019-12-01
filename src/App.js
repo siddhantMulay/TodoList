@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import dataStore from './redux/store';
 import { Provider } from 'react-redux';
 
@@ -11,11 +11,13 @@ import './styles/common.css';
 import MainIndex from './pages/MainIndex';
 
 function App() {
+  
   return (
     <Provider store={dataStore}>
       <Router>
         <div className="pageBody">
           <Route path='/' component={MainIndex} />
+          <Redirect to='/home' />
         </div>
       </Router>
     </Provider>
