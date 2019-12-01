@@ -52,6 +52,74 @@ body {
 
 }
 
+.themeChanger {
+    cursor: pointer;
+}
+
+//Dark theme styles for all components
+.dark {
+
+    input,
+    textarea,
+    .dropdownList {
+        background: #3c3c3c !important;
+        color     : #ffffff !important;
+
+        &::placeholder {
+            color: #888;
+        }
+
+        :-ms-input-placeholder {
+            color: #888;
+        }
+
+        ::-ms-input-placeholder {
+            color: #888;
+        }
+    }
+
+    .dropdownList {
+        .item {
+            &:hover {
+                background: #565656 !important;
+            }
+        }
+    }
+
+    .label,
+    .homeNav {
+        color: #FAFAFA !important;
+    }
+
+    .button {
+        &.secButton {
+            background: #FAFAFA !important;
+            color     : #000000 !important;
+
+            &:hover {
+                color     : #FAFAFA !important;
+                background: transparent !important;
+                border    : 1px solid #FAFAFA !important;
+            }
+        }
+    }
+
+    .modalInner,
+    .task {
+        background: #565656 !important;
+    }
+
+    input[type="checkbox"] {
+
+        border: 1px solid #FAFAFA !important;
+
+        &:checked {
+            &::after {
+                color: #fafafa;
+            }
+        }
+    }
+}
 
 //Mobile devices
 @media screen and (max-width: 600px) {

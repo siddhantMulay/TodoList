@@ -1,22 +1,29 @@
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './BucketCard.css'
 
 class BucketCard extends Component {
 
-    generateRandomColor = () => {
-        let r = Math.round((Math.random() * 255)); //red 0 to 255
-        let g = Math.round((Math.random() * 255)); //green 0 to 255
-        let b = Math.round((Math.random() * 255)); //blue 0 to 255
+    generateRandomDarkColors = () => {
+        let r = Math.round((Math.random() * 255));
+        let g = Math.round((Math.random() * 255));
+        let b = Math.round((Math.random() * 255));
         return 'rgb(' + r + ', ' + g + ', ' + b + ', ' + 0.4 + ')';
     };
+
+    generateRandomLightColors = () => {
+        let color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+        return color;
+    }
 
     render() {
         const { title,
             taskCount,
             action,
-            completedTaskCount } = this.props;
-        const bgCol = this.generateRandomColor();
+            completedTaskCount,
+            theme } = this.props;
+        const bgCol = theme.theme === 'dark' ? this.generateRandomLightColors() : this.generateRandomDarkColors();
         const allTasksDone = taskCount === completedTaskCount;
         return (
             <div className="bucketCard" onClick={action} style={{ 'background': bgCol }}>
@@ -35,4 +42,11 @@ class BucketCard extends Component {
     }
 }
 
-export default BucketCard;
+const mapStateToProps = (state) => {
+    const globalStore = state.global;
+    return {
+        theme: globalStore.theme
+    }
+}
+
+export default connect(mapStateToProps)(BucketCard);

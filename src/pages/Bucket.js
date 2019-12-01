@@ -235,7 +235,7 @@ class Bucket extends Component {
                     </div>
                     <Modal
                         headerText={`${modalAction === 'edit' ? 'Edit' : 'Add a '} Task`}
-                        subHeaderText={`${modalAction === 'add' ? 'Select an existing bucket or simply type to create a new one.'
+                        subHeaderText={`${modalAction === 'add' ? "Select an existing bucket or simply type in and enter to create a new one."
                             : "You can't create a new bucket here coz you're editing :D"}`}
                         secAction={this.closeTaskModal}
                         visible={taskModalVisible}

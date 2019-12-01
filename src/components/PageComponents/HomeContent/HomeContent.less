@@ -23,12 +23,9 @@
         a {
             text-decoration: none !important;
             color          : #000000 !important;
-        }
-
-
-        .bucketCard {
-            margin: 0px 20px 20px 0px;
-            width : 30%;
+            margin         : 0px 20px 20px 0px;
+            width          : 30%;
+            min-width      : 200px;
         }
     }
 }
@@ -37,8 +34,9 @@
 @media screen and (min-width: 768px) and (orientation: portrait) {
     .homeContent {
         .cards {
-            .bucketCard {
-                width: 29%;
+            a {
+                min-width: initial !important;
+                width    : 29%;
             }
         }
     }
@@ -48,8 +46,9 @@
 @media screen and (max-width: 600px) {
     .homeContent {
         .cards {
-            .bucketCard {
-                width: 140px;
+            a {
+                min-width: initial !important;
+                width    : 140px;
             }
         }
     }

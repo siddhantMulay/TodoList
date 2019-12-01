@@ -23,10 +23,10 @@ class HomeContent extends Component {
             let taskCount = 0;
             let completedTaskCount = 0;
 
-            for (var i in bucketTaskCount) {
-                if (bucketTaskCount[i]['id'] === bucketId) {
-                    taskCount = bucketTaskCount[i]['total'];
-                    completedTaskCount = bucketTaskCount[i]['completed'];
+            for (var j in bucketTaskCount) {
+                if (bucketTaskCount[j]['id'] === bucketId) {
+                    taskCount = bucketTaskCount[j]['total'];
+                    completedTaskCount = bucketTaskCount[j]['completed'];
                 }
             }
 
@@ -77,7 +77,7 @@ class HomeContent extends Component {
 
                 <Modal
                     headerText={`Add a Task`}
-                    subHeaderText={`Select an existing bucket or simply type to create a new one.`}
+                    subHeaderText={`Select an existing bucket or simply type in and enter to create a new one.`}
                     secAction={closeTaskModal}
                     visible={taskModalVisible}
                     primaryAction={primaryAction}

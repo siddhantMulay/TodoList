@@ -8,7 +8,8 @@
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "styled-components": "^4.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@iconify/icons-feather": "^1.0.7",
+    "@iconify/icons-jam": "^1.0.3",
     "@iconify/react": "^1.1.1"
   }
 }

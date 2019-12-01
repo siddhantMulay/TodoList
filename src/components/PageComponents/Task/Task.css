@@ -11,7 +11,6 @@
   font-size: 16px;
   display: flex;
   align-items: flex-start;
-  cursor: pointer;
 }
 .task .taskText input[type="checkbox"] {
   cursor: pointer;
@@ -23,7 +22,7 @@
   width: 14px;
   height: 14px;
   border-radius: 2px;
-  margin: 0px 15px 0px 0px;
+  margin: 3px 15px 0px 0px;
   position: relative;
 }
 .task .taskText input[type="checkbox"]:checked {

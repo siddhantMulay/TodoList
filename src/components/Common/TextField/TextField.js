@@ -67,6 +67,12 @@ class TextField extends Component {
         }
     }
 
+    handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            this.closeDropdown();
+        }
+    }
+
     render() {
         const { dropdownVisible, value } = this.state;
         const { label,
@@ -96,7 +102,7 @@ class TextField extends Component {
                         onFocus={dropdownData !== undefined ?
                             dropdownData.length > 0 ? this.openDropdown : null
                             : null}
-                        // onBlur={() => this.closeDropdown()}
+                        onKeyDown={this.handleKeyDown}
                         onChange={(e) => this.handleChange(e, label)}
                         placeholder={placeholder} />
                 }

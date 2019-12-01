@@ -114,7 +114,6 @@ class Home extends Component {
         const { taskModalVisible, valuesLoaded, emptyDataObj } = this.state;
         const { buckets } = this.props;
         const emptyState = buckets.length > 0 ? false : true;
-
         return (
             <div className="page" data-page="Home">
                 <HomeContent

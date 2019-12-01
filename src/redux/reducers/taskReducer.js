@@ -41,9 +41,9 @@ function taskReducer(state = initialState, action) {
         case UPDATE_TASK:
 
             let getAllTasks = [...state.tasks];
-            for (var i in getAllTasks) {
-                if (getAllTasks[i]['id'] === action.id) {
-                    Object.assign(getAllTasks[i], {
+            for (var j in getAllTasks) {
+                if (getAllTasks[j]['id'] === action.id) {
+                    Object.assign(getAllTasks[j], {
                         'bucket': action.bucketId,
                         'task': action.title
                     })
@@ -58,9 +58,9 @@ function taskReducer(state = initialState, action) {
         case DELETE_TASK:
 
             let getAllCurrentTasks = [...state.tasks];
-            for (var i in getAllCurrentTasks) {
-                if (getAllCurrentTasks[i]['id'] === action.id) {
-                    getAllCurrentTasks.splice(i, 1);
+            for (var k in getAllCurrentTasks) {
+                if (getAllCurrentTasks[k]['id'] === action.id) {
+                    getAllCurrentTasks.splice(k, 1);
                 }
             }
             return {

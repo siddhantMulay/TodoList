@@ -1,6 +1,5 @@
 
 import {
-    GET_ALL_BUCKETS,
     ADD_BUCKET
 } from '../actions/bucketActions';
 
@@ -10,13 +9,6 @@ const initialState = {
 
 function bucketReducer(state = initialState, action) {
     switch (action.type) {
-
-        case GET_ALL_BUCKETS:
-            
-            return {
-                ...state,
-                buckets: currBuckets
-            };
 
         case ADD_BUCKET:
             let bucketObj = {

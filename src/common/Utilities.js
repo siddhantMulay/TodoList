@@ -1,7 +1,7 @@
 
 import { addBucket } from '../redux/actions/bucketActions';
-import { toggleTaskStatus, updateTask, deleteTask, addTask } from '../redux/actions/taskActions';
-import { currentBucket, setTasks, globalTaskObj, bucketWiseTaskCount } from '../redux/actions/globalActions';
+import { addTask } from '../redux/actions/taskActions';
+import { setTasks, bucketWiseTaskCount } from '../redux/actions/globalActions';
 
 const Utilities = {
     refreshTasks: (tasks, buckets) => {

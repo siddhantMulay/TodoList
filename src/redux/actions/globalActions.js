@@ -1,6 +1,15 @@
 
 import dataStore from '../store';
 
+//Theme changer
+export const CHANGE_THEME = 'CHANGE_THEME';
+export async function changeTheme(theme) {
+    await dataStore.dispatch({
+        type: CHANGE_THEME,
+        theme
+    })
+}
+
 //Set bucket url based on the bucket user is viewing
 export const CURRENT_BUCKET = 'CURRENT_BUCKET';
 export async function currentBucket(id, name, tasks, reset) {
@@ -34,7 +43,7 @@ export async function currentBucket(id, name, tasks, reset) {
                 }
             }
         }
-        else{
+        else {
             retObj['total'] = 0;
             retObj['completed'] = 0;
         }

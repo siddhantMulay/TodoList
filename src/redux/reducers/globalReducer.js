@@ -3,8 +3,11 @@ import {
     GLOBAL_TASK_OBJ,
     BUCKET_WISE_TASK_COUNT,
     CURRENT_BUCKET,
-    SET_ALL_TASKS
+    SET_ALL_TASKS,
+    CHANGE_THEME
 } from '../actions/globalActions';
+
+import { lightTheme, darkTheme } from '../../common/Theme';
 
 const initialState = {
     globalTaskObj: {
@@ -13,8 +16,9 @@ const initialState = {
     },
     bucketTaskCount: [],
     currentBucket: {},
-    allTasks: []
-};
+    allTasks: [],
+    theme: { 'style': darkTheme, 'theme': 'dark' }
+}
 
 function globalReducer(state = initialState, action) {
     switch (action.type) {
@@ -45,6 +49,23 @@ function globalReducer(state = initialState, action) {
             return {
                 ...state,
                 allTasks: action.tasks
+            };
+
+        case CHANGE_THEME:
+
+            let themeObj = {};
+            if (action.theme === 'dark') {
+                themeObj = darkTheme;
+            }
+            else {
+                themeObj = lightTheme;
+            }
+            return {
+                ...state,
+                theme: Object.assign({}, state.theme, {
+                    'style': themeObj,
+                    'theme': action.theme
+                })
             };
 
         default:
