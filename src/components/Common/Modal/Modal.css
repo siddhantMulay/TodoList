@@ -41,12 +41,13 @@
   -webkit-transition: all 0.2s ease;
 }
 .modal .modalInner .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
 }
 .modal .modalInner .header .headerText {
   font-size: 20px;
+}
+.modal .modalInner .header .subHeaderText {
+  font-size: 13px;
 }
 .modal .modalInner .content {
   padding-bottom: 2rem;

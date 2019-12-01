@@ -49,10 +49,12 @@ class HomeContent extends Component {
 
     render() {
         const { emptyState,
+            loaded,
             taskModalVisible,
             openTaskModal,
             primaryAction,
             handleInputChange,
+            globalTaskObj,
             buckets,
             closeTaskModal } = this.props;
         return (
@@ -74,27 +76,29 @@ class HomeContent extends Component {
 
                 <Modal
                     headerText={`Add a Task`}
+                    subHeaderText={`Select an existing bucket or simply type to create a new one.`}
                     secAction={closeTaskModal}
                     visible={taskModalVisible}
                     primaryAction={primaryAction}
                     content={
-                        <div>
-                            <TextField
-                                autocomplete={true}
-                                autoCompData={buckets}
-                                onChange={handleInputChange}
-                                value={''}
-                                label="Bucket"
-                                type="text"
-                                placeholder="Where will it go?" />
-                            <TextField
-                                onChange={handleInputChange}
-                                value={''}
-                                label="Task"
-                                type="textarea"
-                                placeholder="What's on your mind?" />
-
-                        </div>
+                        loaded ?
+                            <div>
+                                <TextField
+                                    hasDropdown={true}
+                                    dropdownData={buckets}
+                                    onChange={handleInputChange}
+                                    value={globalTaskObj['bucket']}
+                                    label="Bucket"
+                                    type="text"
+                                    placeholder="Where will it go?" />
+                                <TextField
+                                    onChange={handleInputChange}
+                                    value={globalTaskObj['task']}
+                                    label="Task"
+                                    type="textarea"
+                                    placeholder="What's on your mind?" />
+                            </div>
+                            : null
                     }
                     primaryBtnText={`Set Sail!`} />
             </div>
@@ -109,7 +113,8 @@ const mapStateToProps = (state) => {
     return {
         buckets: bucketStore.buckets,
         tasks: taskStore.tasks,
-        bucketTaskCount: globalStore.bucketTaskCount
+        bucketTaskCount: globalStore.bucketTaskCount,
+        globalTaskObj: globalStore.globalTaskObj
     }
 }
 

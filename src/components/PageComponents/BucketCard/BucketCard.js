@@ -17,14 +17,17 @@ class BucketCard extends Component {
             action,
             completedTaskCount } = this.props;
         const bgCol = this.generateRandomColor();
+        const allTasksDone = taskCount === completedTaskCount;
         return (
             <div className="bucketCard" onClick={action} style={{ 'background': bgCol }}>
                 <div className="title">
                     {title}
                 </div>
                 <div className="counts">
-                    {taskCount === 0 ? "Nothing in here" : `
-                        ${taskCount} task(s), ${completedTaskCount} completed`
+                    {taskCount === 0 || taskCount === undefined ? "Nothing in here" :
+                        `${allTasksDone ? 'Another one bites to dust!' :
+                            `${taskCount} task(s), ${completedTaskCount} completed`
+                        }`
                     }
                 </div>
             </div>

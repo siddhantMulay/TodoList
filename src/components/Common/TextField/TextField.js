@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Icon } from '@iconify/react';
 import chevronDown from '@iconify/icons-feather/chevron-down';
-import Autocomplete from './Autocomplete';
+import DropdownList from './DropdownList';
 import './TextField.css';
 
 class TextField extends Component {
@@ -10,53 +10,71 @@ class TextField extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            autocompleteVisible: false,
+            dropdownVisible: false,
             value: props.value || ''
         }
     }
 
-    closeAutoComplete = () => {
+    closeDropdown = () => {
         this.setState({
-            autocompleteVisible: false
+            dropdownVisible: false
         })
     }
 
-    openAutoComplete = () => {
+    openDropdown = () => {
         this.setState({
-            autocompleteVisible: true
+            dropdownVisible: true
         })
     }
-
 
     handleChange = (data, callFrom, name) => {
-        const { onChange, autoCompData } = this.props;
-        const value = callFrom === 'autocomp' ? name : data.target.value;
+        const { onChange, dropdownData } = this.props;
+        const value = callFrom === 'dropdown' ? name : data.target.value;
 
-        if (autoCompData !== undefined) {
-            if (autoCompData.length > 0) {
-                this.openAutoComplete()
+        if (dropdownData !== undefined) {
+            if (dropdownData.length > 0) {
+                this.openDropdown()
             }
         }
 
-        if (callFrom === 'autocomp') {
-            this.closeAutoComplete()
+        if (callFrom === 'dropdown') {
+            this.closeDropdown()
         }
 
         this.setState({
             value: value
         })
 
-        let finalVal = callFrom !== 'autocomp' ? value : data;
+        let finalVal = callFrom !== 'dropdown' ? value : data;
         onChange(finalVal, callFrom)
     }
 
+    setWrapperRef = (node) => {
+        this.wrapperRef = node;
+    }
+
+    componentDidMount() {
+        document.addEventListener('click', this.handleOutsideClick);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', this.handleOutsideClick);
+    }
+
+    handleOutsideClick = (event) => {
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+            this.closeDropdown();
+        }
+    }
+
     render() {
-        const { autocompleteVisible, value } = this.state;
+        const { dropdownVisible, value } = this.state;
         const { label,
             type,
             placeholder,
-            autocomplete,
-            autoCompData
+            hasDropdown,
+            readOnly,
+            dropdownData
         } = this.props;
         return (
             <div className="textField">
@@ -71,24 +89,26 @@ class TextField extends Component {
                     :
                     <input
                         type={label}
+                        ref={this.setWrapperRef}
                         value={value}
-                        onFocus={autoCompData !== undefined ?
-                            autoCompData.length > 0 ? this.openAutoComplete : null
+                        readOnly={readOnly}
+                        onFocus={dropdownData !== undefined ?
+                            dropdownData.length > 0 ? this.openDropdown : null
                             : null}
-                        // onBlur={this.closeAutoComplete}
+                        // onBlur={() => this.closeDropdown()}
                         onChange={(e) => this.handleChange(e, label)}
                         placeholder={placeholder} />
                 }
 
-                {autocomplete ?
-                    <Autocomplete
-                        data={autoCompData}
-                        visible={autocompleteVisible}
-                        onSelect={(e, name) => this.handleChange(e, 'autocomp', name)} />
+                {hasDropdown ?
+                    <DropdownList
+                        data={dropdownData}
+                        visible={dropdownVisible}
+                        onSelect={(e, name) => this.handleChange(e, 'dropdown', name)} />
                     : null}
 
-                {autoCompData !== undefined ? autoCompData.length > 0 ?
-                    <Icon icon={chevronDown} className="autoCompIcon" />
+                {dropdownData !== undefined ? dropdownData.length > 0 ?
+                    <Icon icon={chevronDown} className="ddIcon" />
                     : null : null}
             </div>
         )

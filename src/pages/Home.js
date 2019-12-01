@@ -2,11 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HomeContent from '../components/PageComponents/HomeContent/HomeContent';
-import { addTask } from '../redux/actions/taskActions';
-import { addBucket } from '../redux/actions/bucketActions';
 import { globalTaskObj, bucketWiseTaskCount } from '../redux/actions/globalActions';
 import { withRouter } from 'react-router-dom'
-
+import Utilities from '../common/Utilities';
 import Footer from '../components/Common/Footer/Footer';
 
 class Home extends Component {
@@ -14,18 +12,24 @@ class Home extends Component {
         super(props);
         this.state = {
             taskModalVisible: false,
+            valuesLoaded: false
         }
     }
 
     openTaskModal = () => {
         this.setState({
             taskModalVisible: true
+        }, () => {
+            this.setState({
+                valuesLoaded: true
+            })
         })
     }
 
     closeTaskModal = () => {
         this.setState({
-            taskModalVisible: false
+            taskModalVisible: false,
+            valuesLoaded: false
         }, () => {
             const { tasks, buckets } = this.props;
             bucketWiseTaskCount(tasks, buckets);
@@ -37,7 +41,7 @@ class Home extends Component {
     handleInputChange = (value, callFrom) => {
         let temp = callFrom.toLowerCase();
 
-        if (temp === 'autocomp') {
+        if (temp === 'dropdown') {
             temp = 'bucket'
         }
         globalTaskObj(value, temp)
@@ -45,33 +49,13 @@ class Home extends Component {
 
     addNewTask = () => {
         const { tasks, buckets, globalTaskObj } = this.props;
-        const bucketId = buckets.length + 1;
-        const taskID = tasks.length + 1;
-        const bucketName = globalTaskObj['bucket'];
-        let taskObj = { ...globalTaskObj };
-
-        if (typeof taskObj['bucket'] === 'number') {
-            taskObj['id'] = taskID;
-            taskObj['completed'] = false;
-            addTask(taskObj).then(() => {
-                this.closeTaskModal();
-            });
-        }
-
-        else {
-            addBucket(bucketId, bucketName).then(() => {
-                taskObj['id'] = taskID;
-                taskObj['bucket'] = bucketId;
-                taskObj['completed'] = false;
-                addTask(taskObj).then(() => {
-                    this.closeTaskModal();
-                });
-            });
-        }
+        Utilities.addNewTask(tasks, buckets, globalTaskObj).then(() => {
+            this.closeTaskModal();
+        })
     }
 
     render() {
-        const { taskModalVisible } = this.state;
+        const { taskModalVisible, valuesLoaded } = this.state;
         const { buckets } = this.props;
         const emptyState = buckets.length > 0 ? false : true;
 
@@ -81,6 +65,7 @@ class Home extends Component {
                     openTaskModal={this.openTaskModal}
                     closeTaskModal={this.closeTaskModal}
                     emptyState={emptyState}
+                    loaded={valuesLoaded}
                     primaryAction={() => this.addNewTask()}
                     handleInputChange={this.handleInputChange}
                     taskModalVisible={taskModalVisible} />

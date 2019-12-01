@@ -21,8 +21,13 @@ class MainIndex extends Component {
 
         let subHeaderText = emptyState ?
             "Nothing's in here... yet"
-            : ifInBucket ? currentBucket.total + ' tasks,' + ' ' +
-                currentBucket.completed + ' completed' :
+            : ifInBucket ?
+                currentBucket.total === undefined ?
+                    'Nothing but a blank canvas here' :
+                    currentBucket.total === currentBucket.completed ?
+                        'You the dude! Now go sleep or get a beer or something.' :
+                        currentBucket.total + ' task(s),' + ' ' +
+                        currentBucket.completed + ' completed' :
                 "Now, let's get started, shall we?";
 
         return (

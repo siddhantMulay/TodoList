@@ -12,6 +12,7 @@ class Modal extends Component {
             primaryBtnText,
             secAction,
             headerText,
+            subHeaderText,
             headerAction
         } = this.props;
         return (
@@ -19,6 +20,7 @@ class Modal extends Component {
                 <div className="modalInner">
                     <div className="header">
                         <div className="headerText">{headerText}</div>
+                        {subHeaderText ? <div className="subHeaderText">{subHeaderText}</div> : null}
                         {headerAction ? headerAction : null}
                     </div>
                     <div className="content">
