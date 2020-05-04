@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - [Click here](https://sid-tasklist.netlify.app/home)
 
-(If site shows error of "Page not found", remove '/home' from the url and hit Enter)
+(If site shows error of "Page not found", remove '/home' from the URL and hit Enter)
 
 //Running the app
 
