@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - [Click here](https://sid-tasklist.netlify.app/home)
 
+(If site shows error of "Page not found", remove '/home' from the url and hit Enter)
+
 //Running the app
 
 - Run 'npm install' to install all the dependencies 
